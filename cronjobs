@@ -1,0 +1,4 @@
+#setting environment vars
+#m h dom mon dow command
+58 00 * * * sudo /usr/local/sbin/shutwake > ~/crontab.log 2> ~/crontab.log
+00 01 * * * sudo -u shivam /home/shivam/dev/alarm/wakeup_proxy.sh > /home/shivam/crontab.log 2> /home/shivam/crontab_error.log
