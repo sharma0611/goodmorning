@@ -1,2 +1,2 @@
 #!/bin/bash
-env - `cat ~/.envs/cron.env` $1
+env - `cat ~/.envs/cron.env` && $1
