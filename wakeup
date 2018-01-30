@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script to initialize DISPLAY then open spotify with specified URI
+URI=$1
 DISPLAY=:0
 export DISPLAY
 spotify &
 sleep 2
-/home/${USER}/goodmorning/sp open spotify:track:6kig1UFggPUyZBCvXD3Wod
+/home/${USER}/goodmorning/sp open URI
