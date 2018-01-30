@@ -1,0 +1,4 @@
+#setting environment vars
+#m h dom mon dow command
+58 00 * * * sudo /home/${USER}/goodmorning/shutwake > /home/${USER}/goodmorning/logs/crontab.log 2> /home/${USER}/goodmorning/logs/crontab.log
+00 01 * * * sudo -u ${USER} /home/shady/goodmorning/wakeup > /home/${USER}/goodmorning/logs/crontab.log 2> /home/${USER}/goodmorning/logs/crontab_error.log
