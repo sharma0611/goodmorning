@@ -6,6 +6,8 @@ import getpass
 from dateutil import parser
 from shutil import copyfile
 from crontab import CronTab
+import re
+from datetime import datetime
 
 #Usage:
 #goodmorning.py 8:00AM 
@@ -15,66 +17,87 @@ from crontab import CronTab
 default_alarm = "alarm1"
 wakeup_uri = "spotify:track:6kl1qtQXQsFiIWRBK24Cfp"
 
-
+#Helper functions
 def make_executable(path):
     mode = os.stat(path).st_mode
     mode |= (mode & 0o444) >> 2    # copy R bits to X
     os.chmod(path, mode)
 
+def remove_alarm(alarm_name, cron):
+    for job in cron:
+        if alarm_name in job.comment:
+            my_cron.remove(job)
+            my_cron.write()
+
+def show_alarms(cron):
+    for job in cron:
+        if 'alarm' in job.comment:
+            dt = datetime.now()
+            dt = dt.replace(hour=int(str(job.hour)), minute=int(str(job.minute)))
+            print(job.comment + ": " + dt.strftime("%H:%M"))
+
+#MAIN
+#combine all incoming arguments
 wake_time = sys.argv[1:]
 wake_time = " ".join(wake_time)
 curr_alarm = default_alarm
+
+#Grab user & cron jobs
+user = getpass.getuser()
+my_cron = CronTab(user)
+
+#cases
+#parse alarm
 if 'alarm' in wake_time:
     try:
-        result = re.match('alarm\d+', wake_time)
-        result = result[0]
-    except:
+        result = re.findall('alarm\d+', wake_time)
+        if result is not None:
+            result = result[0]
+        else:
+            print("Alarm not found.")
+    except Exception as e:
+        print(e)
         print("You need to pass in an alarm identifier like this: goodmorning alarm1 8AM")
         exit(1)
 
     curr_alarm = result
     wake_time = wake_time.replace(result, "")
     wake_time = wake_time.strip()
+    print("Alarm selected: " + str(curr_alarm))
 
-wake_time_dt = parser.parse(wake_time)
-print("Alarm chosen:")
-print(curr_alarm)
-print("Setting alarm time for: ")
-print(wake_time_dt.strftime("%H:%M"))
+#remove alarm
+if 'remove' in wake_time:
+    wake_time = wake_time.replace("remove", "")
+    wake_time = wake_time.strip()
+    remove_alarm(curr_alarm, my_cron)
+    print("Removed alarm.")
 
-#setup environment
-#env_path = "./curr.env"
-#env_path = os.path.abspath(env_path)
-#env_crt_cmd = """
-#env | sed 's/=\(.*\)/="\1"/' > """ + env_path
-#process = subprocess.Popen(env_crt_cmd, shell=True)
+#show all alarms
+elif 'show' in wake_time:
+    wake_time = wake_time.replace("show", "")
+    wake_time = wake_time.strip()
+    show_alarms(my_cron)
 
-#setup path to wake up
-wakeup_path = "./wakeup"
-wakeup_path = os.path.abspath(wakeup_path)
-ctrlr_path = "./spotify_ctrl"
-ctrlr_path = os.path.abspath(ctrlr_path)
-make_executable(wakeup_path)
-make_executable(ctrlr_path)
+#else set alarm
+else:
+    wake_time_dt = parser.parse(wake_time)
+    print("Alarm set for: " + str(wake_time_dt.strftime("%H:%M")))
 
-#Grab user & cron jobs
-user = getpass.getuser()
-print("current crontab user: " + str(user))
-my_cron = CronTab(user)
+    #setup path to wake up
+    wakeup_path = "./wakeup"
+    wakeup_path = os.path.abspath(wakeup_path)
+    ctrlr_path = "./spotify_ctrl"
+    ctrlr_path = os.path.abspath(ctrlr_path)
+    make_executable(wakeup_path)
+    make_executable(ctrlr_path)
 
-#remove any existing alarms
-try:
-    for job in my_cron:
-        if job.comment == curr_alarm:
-            my_cron.remove(job)
-            my_cron.write()
-except:
-    pass
+    #remove any existing alarms
+    remove_alarm(curr_alarm, my_cron)
 
-#add new alarm
-cmd = wakeup_path + " " + wakeup_uri + " " + ctrlr_path 
-job = my_cron.new(command=cmd, comment=curr_alarm)
-job.hour.on(int(wake_time_dt.strftime("%H")))
-job.minute.on(int(wake_time_dt.strftime("%M")))
+    #add new alarm
+    cmd = wakeup_path + " " + wakeup_uri + " " + ctrlr_path 
+    job = my_cron.new(command=cmd, comment=curr_alarm)
+    job.hour.on(int(wake_time_dt.strftime("%H")))
+    job.minute.on(int(wake_time_dt.strftime("%M")))
 
-my_cron.write()
+    my_cron.write()
