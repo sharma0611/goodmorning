@@ -11,17 +11,7 @@ goodmorning is a simple Spotify alarm clock using cron.
 
 Command line setup:
 
-1) **Setup spotify from npm**
-
-```bash
-$ brew install npm
-$ npm install spotify-cli-mac -g
-```
-
-Now we have to configure the command line spotify command.
-Run the spotify command in your terminal and enter your client ID and client secret you will get from beta.developer.spotify.com. Log in there, make an app, get the keys. When you run `$ spotify` you will be prompted for those keys, enter them and you are done configuring the cmd line spotify.
-
-2) **Install Requirements**
+**Install Requirements**
 
 ```bash
 $ git clone https://github.com/sharma0611/goodmorning.git
@@ -57,12 +47,26 @@ $ ./goodmorning 8pm alarm5
 
 Point is, either pass in just a time OR pass in 'alarm{num}' with a time to set that alarm to that time, in any order you please. Feel free to use military time if you want; just check with the output to ensure the correct time is set.
 
-## How it works
+#### How it works
 
 Uses crontabs to setup alarms that call spotify interface at given times.
 
 ## Add it to your path
+
+Some preconfigured bash scripts to call the python script with presupplied arguments: 
+
 ```bash
 $ cd goodmorning
 $ ln -s $(pwd)/show /usr/local/bin/show
-$ ln -s $(pwd)/alarm_set /usr/local/bin/alarm_set
+$ ln -s $(pwd)/alarm_set /usr/local/bin/ls
+2:alarm_set
+$ ln -s $(pwd)/remove /usr/local/bin/remove
+```
+
+Now you can use it like this:
+
+```bash
+$ show
+$ remove alarm1
+$ alarm_set alarm1 4am
+```
