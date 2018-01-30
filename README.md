@@ -1,6 +1,6 @@
-# goodmorning - A spotify alarm clock
+# goodmorning
 
-goodmorning is a simple Spotify alarm clock using cron.
+goodmorning is a Spotify alarm clock made using cron & a simple python script. Set up your alarms through the command line, wake up to music, and have a good morning. 
 
 ## Requirements 
 * HomeBrew
@@ -58,8 +58,7 @@ Some preconfigured bash scripts to call the python script with presupplied argum
 ```bash
 $ cd goodmorning
 $ ln -s $(pwd)/show /usr/local/bin/show
-$ ln -s $(pwd)/alarm_set /usr/local/bin/ls
-2:alarm_set
+$ ln -s $(pwd)/alarm_set /usr/local/bin/alarm_set
 $ ln -s $(pwd)/remove /usr/local/bin/remove
 ```
 
