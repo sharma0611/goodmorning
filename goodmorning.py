@@ -44,7 +44,7 @@ curr_alarm = default_alarm
 
 #Grab user & cron jobs
 user = getpass.getuser()
-my_cron = CronTab(user)
+my_cron = CronTab(user=user)
 
 #cases
 #parse alarm
