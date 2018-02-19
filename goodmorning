@@ -15,7 +15,7 @@ from datetime import datetime
 
 #CONFIG
 default_alarm = "alarm1"
-wakeup_uri = "spotify:track:6kl1qtQXQsFiIWRBK24Cfp"
+wakeup_uri = "spotify:track:4qKcDkK6siZ7Jp1Jb4m0aL"
 
 #Helper functions
 def make_executable(path):
