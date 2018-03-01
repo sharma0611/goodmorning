@@ -88,8 +88,11 @@ else:
     wakeup_path = os.path.abspath(wakeup_path)
     ctrlr_path = "./spotify_ctrl"
     ctrlr_path = os.path.abspath(ctrlr_path)
-    make_executable(wakeup_path)
-    make_executable(ctrlr_path)
+    try:
+        make_executable(wakeup_path)
+        make_executable(ctrlr_path)
+    except:
+        pass
 
     #remove any existing alarms
     remove_alarm(curr_alarm, my_cron)
