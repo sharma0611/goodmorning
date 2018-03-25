@@ -84,10 +84,9 @@ else:
     print("Alarm set for: " + str(wake_time_dt.strftime("%H:%M")))
 
     #setup path to wake up
-    wakeup_path = "./wakeup"
-    wakeup_path = os.path.abspath(wakeup_path)
-    ctrlr_path = "./spotify_ctrl"
-    ctrlr_path = os.path.abspath(ctrlr_path)
+    goodmorning_path = os.path.abspath(os.path.dirname(__file__))
+    wakeup_path = goodmorning_path.replace("goodmorning", "wakeup")
+    crtlr_path = goodmorning_path.replace("goodmorning", "spotify_ctrl")
     try:
         make_executable(wakeup_path)
         make_executable(ctrlr_path)
