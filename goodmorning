@@ -86,7 +86,7 @@ else:
     #setup path to wake up
     goodmorning_path = os.path.abspath(os.path.dirname(__file__))
     wakeup_path = goodmorning_path.replace("goodmorning", "wakeup")
-    crtlr_path = goodmorning_path.replace("goodmorning", "spotify_ctrl")
+    ctrlr_path = goodmorning_path.replace("goodmorning", "spotify_ctrl")
     try:
         make_executable(wakeup_path)
         make_executable(ctrlr_path)
