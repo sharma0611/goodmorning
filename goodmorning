@@ -85,7 +85,6 @@ else:
 
     #setup path to wake up
     goodmorning_path = os.path.realpath(__file__)
-    print(goodmorning_path)
     wakeup_path = goodmorning_path.replace("goodmorning/goodmorning", "goodmorning/wakeup")
     ctrlr_path = goodmorning_path.replace("goodmorning/goodmorning", "goodmorning/spotify_ctrl")
     try:
